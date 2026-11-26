@@ -1,98 +1,175 @@
-# Narrative Engine (`narrative-engine-mcp`) 🎭
+<p align="center">
+  <img src="docs/banner.jpg" alt="Narrative Engine Banner" width="100%" />
+</p>
 
-> **Narrative-to-Code Orchestrator:** A local visual story editor with native Model Context Protocol (MCP) integration. Designed for authors to direct interactive fiction and for AI coding agents (Antigravity, Claude Code, Codex, Cursor) to construct verified games in Unity and Godot.
+<p align="center">
+  <strong>Narrative-to-Code Orchestrator & Visual Story IDE with Native Model Context Protocol (MCP)</strong>
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-20%2B-green.svg?style=flat-square" alt="Node.js Version" /></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-61dafb.svg?style=flat-square" alt="React 19" /></a>
+  <a href="https://fastify.dev/"><img src="https://img.shields.io/badge/Fastify-5-black.svg?style=flat-square" alt="Fastify" /></a>
+  <a href="https://modelcontextprotocol.io/"><img src="https://img.shields.io/badge/MCP-1.6.0-orange.svg?style=flat-square" alt="Model Context Protocol" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.7-3178c6.svg?style=flat-square" alt="TypeScript" /></a>
+  <a href="README_RU.md"><img src="https://img.shields.io/badge/Language-Русский-red.svg?style=flat-square" alt="Russian Documentation" /></a>
+</p>
 
 ---
 
-## 🌟 Core Architecture & Philosophy
+## 📖 Overview
 
-```mermaid
-flowchart LR
-    Author["Author / Writer<br>(Visual React Flow Canvas)"] <--> |WebSocket Live Sync| Server["Narrative Engine Server<br>(Fastify + Non-Destructive Media)"]
-    Server <--> |Model Context Protocol<br>(stdio & SSE)| Agent["AI Coding Agent<br>(Antigravity / Claude Code / Codex)"]
-    Agent --> |Compiles Bundle| Export["Agent_Export_Build.zip<br>• Clean manifest.json<br>• Local /assets<br>• AGENT_INSTRUCTIONS.md"]
-    Export --> GameEngine["Game Engine<br>(Unity / Godot / Custom Web)"]
-```
+**Narrative Engine** is a high-performance local visual development environment designed for writers, game designers, and AI coding agents. It bridges high-level creative story direction with autonomous game engine code generation (Unity, Godot, and Modern Web).
 
-### 1. Action-Based Nodes (No Canvas Spaghetti)
-Unlike traditional visual scripting tools that spawn separate cards for every image, sound, and dialogue line, **Narrative Engine** represents each scene as an **ordered sequence stack**:
-1. `show_background` (asset ID + transition)
-2. `play_music` (audio asset + volume)
-3. `dialogue` (speaker + text line)
-4. `camera_effect` (screen shake / flash / fade)
-5. `choices` (branching buttons with state conditions)
-
-### 2. Dual-Transport Model Context Protocol (MCP)
-Narrative Engine is built from the ground up as a native MCP server:
-- **`stdio` Transport:** Spawns via `node backend/dist/mcp/stdioRunner.js` for standalone CLI agents.
-- **`SSE` Transport:** Listens on `http://127.0.0.1:3001/sse` for live browser sessions. When the AI agent generates a branching dialogue or audits the narrative, the changes appear on the author's screen in real time.
-
-### 3. Non-Destructive Editing & Asset Pipeline
-- In edit mode, the editor saves absolute file paths on the user's computer without duplicating multi-gigabyte media files.
-- The local backend safely streams local media directly to the browser at `/api/media/stream?path=...`, bypassing browser `file://` protocol restrictions.
-- Upon export, assets are sanitized, renamed, copied to an isolated temporary build directory (`os.tmpdir()` to prevent OneDrive locking), and packed into a standalone `.zip`.
+Instead of treating story scripts as passive text documents, Narrative Engine turns interactive branching fiction into a **strictly typed, mathematically verifiable narrative graph** that AI agents can inspect, audit, modify, and compile in real time through the **Model Context Protocol (MCP)**.
 
 ---
 
 ## 📸 Visual Showcase
 
-| Dark Mode Canvas Overview | Light Mode Scene Zoom |
-|:---:|:---:|
-| ![Dark Mode Overview](docs/screenshots/01-dark-overview.png) | ![Light Mode Zoom](docs/screenshots/02-light-zoom.png) |
+### 1. Interactive 3-Act Canvas (Dark Mode)
+Full workspace overview displaying scenes organized across Exposition, Conflict, and Climax with non-linear choice branches and state conditions.
 
-| Character Manager | Story Variables & State |
-|:---:|:---:|
-| ![Characters](docs/screenshots/03-characters-modal.png) | ![Variables](docs/screenshots/04-variables-modal.png) |
-
-| Model Context Protocol & Hardware Acceleration Panel |
-|:---:|
-| ![MCP Panel](docs/screenshots/05-mcp-modal.png) |
+![Dark Mode Fullscreen Canvas](docs/screenshots/fullscreen-dark.png)
 
 ---
 
-## 🛠 Technology Stack
+### 2. High-Density Scene Inspector (Light Mode)
+Zoomed-in view of action-based sequence stacks, background preview pipeline, and audio-visual transitions.
 
-- **Frontend:** React 19, TypeScript, Vite, `@xyflow/react` (React Flow), Zustand, Tailwind CSS, Lucide Icons.
-- **Backend:** Node.js (v20+), Fastify, `@modelcontextprotocol/sdk`, `@fastify/websocket`, `archiver`, Zod.
-- **Shared:** Shared type-safe interfaces and validation schemas (`@narrative-engine/shared`).
+![Light Mode Zoomed Scene](docs/screenshots/fullscreen-light.png)
 
 ---
 
-## 🚀 Quick Start (Windows / Linux / macOS)
+### 3. Core Modals & Engineering Panels
+
+| Character & Sprite Manager | Story Variables & State Flags | Native MCP & Hardware Telemetry |
+| :---: | :---: | :---: |
+| <img src="docs/screenshots/characters.png" width="100%" alt="Character Manager" /> | <img src="docs/screenshots/variables.png" width="100%" alt="Variables Manager" /> | <img src="docs/screenshots/mcp.png" width="100%" alt="MCP Diagnostics" /> |
+| *Register hero profiles, emotion sprites, and costumes with local file pickers.* | *Manage boolean flags, numerical counters, and narrative state dependencies.* | *Real-time dual-transport (stdio & SSE), live sync, and GPU hardware acceleration.* |
+
+---
+
+## 🌟 Key Features
+
+### 🎬 Action-Based Ordered Sequence Stacks
+Traditional node editors create chaotic "canvas spaghetti" by spawning separate cards for every dialogue, image change, and SFX. Narrative Engine structures each scene as an **atomic, ordered action stack**:
+1. `show_background` — Asset resolution with transition effects (Fade, Cut, Slide).
+2. `play_music` — Ambient audio and soundtrack control with volume normalization.
+3. `dialogue` — Spoken lines with speaker identity, portrait emotion, and voice-over tracks.
+4. `camera_effect` — Visual overlays, screen shake, and director cues.
+5. `choices` — Player decision points with state condition checks (`has_key == true`) and variable mutations (`karma += 5`).
+
+### 🤖 Dual-Transport Model Context Protocol (MCP)
+Built from the ground up to support autonomous AI coding agents:
+- **`stdio` Transport:** Spawned via `node backend/dist/mcp/stdioRunner.js` for CLI agents (**Google Antigravity**, **Claude Code**, **Codex**). Diagnostic logs are routed to `stderr`, leaving `stdout` pure for JSON-RPC.
+- **`SSE` Transport:** Listens on `http://127.0.0.1:3001/sse`. When an agent edits the story or imports a script, changes stream instantly to the browser canvas via WebSockets.
+
+### 📁 Non-Destructive Local Media Pipeline
+- Authors point directly to multi-gigabyte local asset folders without copying files into the project.
+- The built-in streaming endpoint `/api/media/stream` serves local audio and images directly to the browser, bypassing `file://` security restrictions.
+- Includes folder picker buttons and live image previews right on the canvas cards.
+
+### ⚡ Hardware Telemetry & GPU Detection
+Built-in hardware diagnostic module automatically detects:
+- GPU vendor & model (AMD Radeon, NVIDIA GeForce, Intel Arc/Iris).
+- Vulkan 1.3 hardware acceleration status.
+- Dedicated vs. Integrated GPU power modes with low-power battery-saving profiles.
+
+### 🔍 Automated Story Logic Audit
+One-click audit engine performs graph validation:
+- Detects unreachable dead-ends and orphan scenes.
+- Flags infinite cycles that lack state-mutating exit conditions.
+- Identifies undeclared variables and type mismatches.
+- Computes a comprehensive **Maturity Score (0–100%)**.
+
+### 🌍 Multi-Language Localization
+Fully translated and localized in **9 languages**:
+English (en), Russian (ru), German (de), French (fr), Spanish (es), Italian (it), Japanese (ja), Korean (ko), and Portuguese (pt).
+
+### 📦 1-Click Game Engine Export
+Compiles the narrative into an isolated `Agent_Export_Build.zip` containing:
+- Clean, schema-validated `manifest.json`.
+- Sanitized local `/assets` directory.
+- Tailored `AGENT_INSTRUCTIONS.md` enabling AI agents to scaffold complete visual novel implementations in **Unity** (C#) or **Godot** (GDScript).
+
+---
+
+## 🏛 Architecture & Workflow
+
+```mermaid
+flowchart LR
+    subgraph Human["Director / Author"]
+        Canvas["React 19 Canvas<br>(React Flow + Zustand)"]
+    end
+
+    subgraph Backend["Narrative Engine Server (Port 3001)"]
+        Fastify["Fastify Web Server"]
+        MediaStream["Media Stream Proxy<br>(/api/media/stream)"]
+        Audit["Logic Audit Engine<br>(Maturity 0-100%)"]
+        MCPServer["MCP Server<br>(stdio & SSE)"]
+    end
+
+    subgraph AI["Autonomous AI Agents"]
+        Agent["Antigravity / Claude Code / Codex / Cursor"]
+    end
+
+    subgraph Engines["Game Production"]
+        Export["Agent_Export_Build.zip<br>• manifest.json<br>• /assets<br>• AGENT_INSTRUCTIONS.md"]
+        TargetEngine["Unity / Godot / Web"]
+    end
+
+    Canvas <--> |WebSocket Sync| Fastify
+    Canvas --> MediaStream
+    MCPServer <--> |Dual Transport| Agent
+    Agent --> Audit
+    Agent --> Export
+    Export --> TargetEngine
+```
+
+---
+
+## 🚀 Quick Start
 
 ### 1-Click Launch (Windows)
-Double-click `start_windows.bat`. It will:
-1. Check and auto-release ports 3001 and 5173.
-2. Build the shared schema package.
-3. Launch the Backend and Frontend processes in background tabs.
-4. Open `http://localhost:5173` in your default browser.
+Double-click **`start_windows.bat`**. The launcher will:
+1. Detect Node.js (18+) and npm.
+2. Auto-release ports 3001 and 5173 if previously occupied.
+3. Build shared type schemas.
+4. Launch Backend and Frontend concurrently.
+5. Automatically open `http://localhost:5173` in your default browser.
 
-### Manual Setup
+### 1-Click Launch (Linux / macOS)
+```bash
+chmod +x start_linux_mac.sh
+./start_linux_mac.sh
+```
+
+### Manual CLI Setup
 ```bash
 # 1. Clone repository
 git clone https://github.com/MarkusMarrei/narrative-engine.git
 cd narrative-engine
 
-# 2. Install monorepo dependencies
+# 2. Install workspace dependencies
 npm install
 
-# 3. Build shared types
+# 3. Build shared schema package
 npm run build:shared
 
-# 4. Start Backend (Terminal 1)
-npm run dev:backend
-
-# 5. Start Frontend (Terminal 2)
-npm run dev:frontend
+# 4. Start Development Servers
+npm run dev
 ```
 
 ---
 
-## 📡 Connecting External AI Agents
+## 📡 Connecting AI Agents via MCP
 
-See [MCP_GUIDE.md](MCP_GUIDE.md) for full configuration recipes.
+Narrative Engine can be controlled by any MCP-compatible AI assistant.
 
-To connect **Google Antigravity** or **Claude Desktop**, add this to your MCP settings file:
+### Google Antigravity & Claude Desktop (`stdio` mode)
+Add this to your MCP configuration file (`mcp.json` or `claude_desktop_config.json`):
 
 ```json
 {
@@ -107,19 +184,90 @@ To connect **Google Antigravity** or **Claude Desktop**, add this to your MCP se
 }
 ```
 
+### Cursor, Windsurf, Roo Code (`SSE` live mode)
+When running `start_windows.bat`, connect directly to the active live server:
+
+```json
+{
+  "mcpServers": {
+    "narrative-engine-live": {
+      "url": "http://127.0.0.1:3001/sse",
+      "transport": "sse"
+    }
+  }
+}
+```
+
 ---
 
-## 🔍 The 7 Native MCP Tools
+## 🛠 Native MCP Tools Reference
 
-1. **`narrative_get_project`**: Read entire narrative state, acts, variables, and node hierarchy.
-2. **`narrative_audit_project`**: Validate story logic, detect circular loops, dead ends, and missing variables. Returns Maturity Score (0-100%).
-3. **`narrative_import_draft`**: Ingest a 50,000+ character story text, extract dialogue speakers, and populate the 3-act canvas automatically.
-4. **`narrative_create_scene`**: Programmatically generate a new scene in a specific act.
-5. **`narrative_update_scene`**: Modify dialogues, title, or flags of an existing scene.
-6. **`narrative_link_scenes`**: Create choice branches with conditions (`has_key == true`) and state effects (`karma + 5`).
-7. **`narrative_export_bundle`**: Compile and package a clean `Agent_Export_Build.zip` for game engine code generation.
+| Tool Name | Parameters | Description |
+| :--- | :--- | :--- |
+| **`narrative_get_project`** | *none* | Reads the entire story state, metadata, acts, character definitions, variable registries, and scene nodes. |
+| **`narrative_audit_project`** | *none* | Runs static analysis on the graph: checks for orphan nodes, dead ends, loops without variable conditions, and missing files. Returns 0–100% score. |
+| **`narrative_import_draft`** | `raw_text`, `project_title` | Ingests raw narrative text (50,000+ chars), automatically partitions it into scenes across 3 acts, parses dialogue speakers, and populates the canvas. |
+| **`narrative_create_scene`** | `node_id`, `title`, `act_id`, `dialogue_text`, `speaker`, `bg_image`, `music_file`, `is_terminal` | Programmatically instantiates a new scene with specified action nodes. |
+| **`narrative_update_scene`** | `node_id`, `title`, `append_dialogue`, `is_terminal` | Modifies existing scene properties or appends new dialogue lines. |
+| **`narrative_link_scenes`** | `from_node_id`, `to_node_id`, `label`, `condition`, `effects` | Creates branching player decisions with state preconditions and variable mutation effects. |
+| **`narrative_export_bundle`** | `target_engine` (`generic` \| `unity` \| `godot`) | Packages a clean, standalone zip bundle containing sanitized manifests and assets. |
+
+---
+
+## 📁 Repository Structure
+
+```
+narrative-engine/
+├── .github/
+│   ├── workflows/ci.yml           # Cross-platform automated build CI
+│   └── ISSUE_TEMPLATE/            # Bug report & feature request templates
+├── docs/
+│   ├── banner.jpg                 # Official Narrative Engine project banner
+│   └── screenshots/               # Fullscreen and modal UI showcase images
+├── backend/
+│   ├── src/
+│   │   ├── mcp/                   # Model Context Protocol server & stdio runner
+│   │   ├── auditService.ts        # Graph maturity & deadlock detection
+│   │   ├── compilerService.ts     # Engine export packager
+│   │   ├── draftImporter.ts       # Raw text to 3-act canvas parser
+│   │   ├── hardwareDetector.ts    # Vulkan & GPU telemetry
+│   │   ├── projectStore.ts        # Master manifest state store
+│   │   └── index.ts               # Fastify HTTP, SSE & WebSocket server
+│   └── package.json
+├── frontend/
+│   ├── src/
+│   │   ├── components/            # Canvas nodes, modals, header, palette
+│   │   ├── i18n/                  # 9 languages localization system
+│   │   ├── store/                 # Zustand state management
+│   │   ├── App.tsx
+│   │   └── main.tsx
+│   ├── index.html
+│   └── vite.config.ts
+├── shared/
+│   ├── src/                       # Type-safe schemas and interfaces (Zod)
+│   └── package.json
+├── test_assets/                   # Sample audio, backgrounds, and character portraits
+├── saved_projects/                # Demo project: "Neon Echoes: The Lost Protocol"
+├── scripts/                       # Port management utilities (free_ports.ps1)
+├── start_windows.bat              # 1-Click launcher for Windows
+├── start_linux_mac.sh             # 1-Click launcher for Linux & macOS
+├── mcp_config_example.json        # MCP agent configuration template
+├── CONTRIBUTING.md                # Development & contribution guidelines
+├── SECURITY.md                    # Security vulnerability reporting policy
+├── LICENSE                        # Apache 2.0 License
+└── README.md
+```
+
+---
+
+## 👤 Author
+
+**Markus Marrei (Маркус Маррей)**
+- Email: [markus.marrei@gmail.com](mailto:markus.marrei@gmail.com)
+- GitHub: [@MarkusMarrei](https://github.com/MarkusMarrei)
 
 ---
 
 ## 📄 License
-Apache License 2.0. Authored by **Markus Marrei** (`markus.marrei@gmail.com`).
+
+This project is licensed under the **Apache License 2.0** — see the [LICENSE](LICENSE) file for details.
