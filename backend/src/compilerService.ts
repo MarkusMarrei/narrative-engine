@@ -1,0 +1,178 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import archiver from 'archiver';
+import type { MasterManifest } from '@narrative-engine/shared';
+
+export interface ExportResult {
+  success: boolean;
+  zip_path: string;
+  total_nodes: number;
+  total_assets: number;
+  file_size_bytes: number;
+  warnings: string[];
+}
+
+export class CompilerService {
+  public static async exportBundle(
+    manifest: MasterManifest,
+    targetEngine: 'generic' | 'unity' | 'godot' = 'generic'
+  ): Promise<ExportResult> {
+    const warnings: string[] = [];
+
+    // Создаем изолированную временную директорию в os.tmpdir() (защита от OneDrive Path Lock)
+    const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'narrative_build_'));
+    const buildAssetsDir = path.join(tempRoot, 'assets');
+    fs.mkdirSync(buildAssetsDir, { recursive: true });
+
+    const clonedManifest: MasterManifest = JSON.parse(JSON.stringify(manifest));
+    const assetRegistry = clonedManifest.asset_registry;
+
+    // 1. Санитизация и копирование ассетов
+    let assetsCount = 0;
+    for (const [assetId, asset] of Object.entries(assetRegistry)) {
+      if (asset.local_path && asset.local_path.trim().length > 0) {
+        if (fs.existsSync(asset.local_path)) {
+          const ext = path.extname(asset.local_path).toLowerCase();
+          const safeBaseName = this.sanitizeFileName(path.basename(asset.local_path, ext));
+          const safeFileName = `${assetId}_${safeBaseName}${ext}`;
+          const destPath = path.join(buildAssetsDir, safeFileName);
+
+          try {
+            fs.copyFileSync(asset.local_path, destPath);
+            asset.relative_path = `assets/${safeFileName}`;
+            assetsCount++;
+          } catch (err) {
+            warnings.push(`Не удалось скопировать ассет ${assetId}: ${String(err)}`);
+          }
+        } else {
+          warnings.push(`Ассет ${assetId} не найден на диске: ${asset.local_path}`);
+          asset.relative_path = `assets/${assetId}_placeholder.bin`;
+        }
+      } else {
+        asset.relative_path = `assets/${assetId}_placeholder.bin`;
+      }
+    }
+
+    // 2. Запись manifest.json с относительными путями
+    const manifestPath = path.join(tempRoot, 'manifest.json');
+    fs.writeFileSync(manifestPath, JSON.stringify(clonedManifest, null, 2), 'utf-8');
+
+    // 3. Создание руководства для AI-агента-разработчика (AGENT_INSTRUCTIONS.md)
+    const instructionsPath = path.join(tempRoot, 'AGENT_INSTRUCTIONS.md');
+    const instructionsContent = this.generateAgentInstructions(clonedManifest, targetEngine);
+    fs.writeFileSync(instructionsPath, instructionsContent, 'utf-8');
+
+    // 4. Упаковка в ZIP
+    const zipFileName = `Agent_Export_Build_${Date.now()}.zip`;
+    const outputZipPath = path.resolve(process.cwd(), zipFileName);
+
+    await this.archiveDirectory(tempRoot, outputZipPath);
+
+    // Очистка временной директории сборки
+    try {
+      fs.rmSync(tempRoot, { recursive: true, force: true });
+    } catch {
+      // Игнорируем мелкие ошибки очистки temp
+    }
+
+    const stats = fs.statSync(outputZipPath);
+
+    return {
+      success: true,
+      zip_path: outputZipPath,
+      total_nodes: Object.keys(clonedManifest.nodes).length,
+      total_assets: assetsCount,
+      file_size_bytes: stats.size,
+      warnings,
+    };
+  }
+
+  private static sanitizeFileName(name: string): string {
+    return name
+      .toLowerCase()
+      .replace(/[а-яё]/gi, (match) => {
+        const ruToEn: Record<string, string> = {
+          а: 'a', б: 'b', в: 'v', г: 'g', д: 'd', е: 'e', ё: 'yo', ж: 'zh',
+          з: 'z', и: 'i', й: 'y', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o',
+          п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts',
+          ч: 'ch', ш: 'sh', щ: 'shch', ъ: '', ы: 'y', ь: '', э: 'e', ю: 'yu', я: 'ya',
+        };
+        return ruToEn[match.toLowerCase()] || '';
+      })
+      .replace(/[^a-z0-9_-]/g, '_')
+      .replace(/_+/g, '_')
+      .slice(0, 40);
+  }
+
+  private static archiveDirectory(sourceDir: string, outZipPath: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const output = fs.createWriteStream(outZipPath);
+      const archive = archiver('zip', { zlib: { level: 9 } });
+
+      output.on('close', () => resolve());
+      archive.on('error', (err) => reject(err));
+
+      archive.pipe(output);
+      archive.directory(sourceDir, false);
+      archive.finalize();
+    });
+  }
+
+  private static generateAgentInstructions(
+    manifest: MasterManifest,
+    targetEngine: 'generic' | 'unity' | 'godot'
+  ): string {
+    return `# NARRATIVE ENGINE: AI AGENT RUNTIME SPECIFICATION
+
+> **Target Engine:** ${targetEngine.toUpperCase()}
+> **Project Title:** ${manifest.meta.title}
+> **Schema Version:** ${manifest.meta.schema_version}
+> **Total Scenes:** ${Object.keys(manifest.nodes).length}
+
+---
+
+## 1. Overview for Autonomous AI Coding Agent
+You have received a deterministic, pre-validated narrative package generated by **Narrative Engine**.
+Your mission is to construct or wire the game scenes in **${targetEngine}** without hallucinating file paths, variables, or dialogue flow.
+
+### Bundle Contents:
+- \`manifest.json\`: The authoritative master state (nodes, sequences, choices, and state machine).
+- \`assets/\`: Normalized, sanitized media assets referenced by \`asset_registry\`.
+- \`AGENT_INSTRUCTIONS.md\`: This file.
+
+---
+
+## 2. State & Variable Rules
+The story utilizes the following strictly declared global variables in \`manifest.json -> meta.global_variables\`:
+\`\`\`json
+${JSON.stringify(manifest.meta.global_variables, null, 2)}
+\`\`\`
+- When initializing the game state manager, register each variable with its declared \`default_value\`.
+- Never invent undeclared state variables.
+
+---
+
+## 3. Node Action Sequence Execution Model
+Each story scene (\`nodes[node_id]\`) contains an ordered array of atomic commands in \`sequence\`:
+
+1. \`show_background\`: Load the sprite from \`asset_registry[asset_id].relative_path\`. Apply the transition (\`fade\`, \`cut\`, etc.).
+2. \`play_music\`: Play audio stream from \`asset_registry[asset_id].relative_path\`.
+3. \`stop_music\`: Fade out and stop background track.
+4. \`dialogue\`: Render speaker name and text box. Wait for player tap/spacebar before proceeding to next action.
+5. \`camera_effect\`: Execute screen shake, flash, or camera zoom.
+6. \`set_variable\`: Update runtime state dictionary.
+
+---
+
+## 4. Branching & Choice Evaluation Model
+After the last action in a node's \`sequence\` finishes, render UI buttons for \`choices\`:
+- **Conditions:** If \`choice.condition\` exists, only display the button if \`state[variable] operator value\` evaluates to \`true\`.
+- **Effects:** When the player clicks a choice, immediately apply all mutations in \`choice.effects\` to the state machine before loading \`next_node\`.
+- **Terminal Nodes:** If \`choices\` is empty and \`metadata.is_terminal\` is true, trigger the credits / Game Over / return to main menu sequence.
+
+---
+*Generated deterministically by Narrative Engine Compiler.*
+`;
+  }
+}

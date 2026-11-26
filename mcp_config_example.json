@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "narrative-engine": {
+      "command": "node",
+      "args": [
+        "<PATH_TO_NARRATIVE_ENGINE>/backend/dist/mcp/stdioRunner.js"
+      ],
+      "env": {}
+    },
+    "narrative-engine-sse": {
+      "url": "http://127.0.0.1:3001/sse",
+      "transport": "sse"
+    }
+  }
+}

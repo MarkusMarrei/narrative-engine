@@ -1,0 +1,537 @@
+﻿{
+  "meta": {
+    "schema_version": "2.0.0",
+    "title": "Neon Echoes: The Lost Protocol",
+    "author": "Markus Marrei",
+    "description": "A 3-scene sci-fi interactive thriller set in an abandoned quantum relay station.",
+    "start_node_position": {
+      "x": -733.1386382957021,
+      "y": 245.90615514505708
+    },
+    "characters": {
+      "char_kaelen": {
+        "id": "char_kaelen",
+        "name": "Kaelen",
+        "description": "Lead cyber-investigator sent to stabilize the failing quantum relay.",
+        "color": "#f59e0b",
+        "avatar_url": "test_assets/char_kaelen.png",
+        "tags": [
+          "protagonist",
+          "tech"
+        ]
+      },
+      "char_aura": {
+        "id": "char_aura",
+        "name": "AURA AI",
+        "description": "Autonomous Relay AI operating in emergency degradation mode.",
+        "color": "#06b6d4",
+        "tags": [
+          "ai",
+          "station"
+        ]
+      }
+    },
+    "global_variables": {
+      "var_security_key": {
+        "id": "var_security_key",
+        "name": "has_security_key",
+        "type": "boolean",
+        "default_value": false,
+        "description": "Whether Kaelen acquired the physical encryption keycard."
+      },
+      "var_core_integrity": {
+        "id": "var_core_integrity",
+        "name": "core_integrity_percent",
+        "type": "number",
+        "default_value": 100,
+        "description": "Current health integrity of the Quantum Core."
+      }
+    },
+    "updated_at": "2026-11-26T12:31:58.699Z",
+    "scenes": [
+      {
+        "id": "scene_1_terminal",
+        "title": "Scene 1: The Abandoned Terminal",
+        "order": 1,
+        "color": "#facc15",
+        "description": "Kaelen arrives at the darkened terminal room as backup emergency lights hum.",
+        "background_image": "test_assets/bg_terminal.png",
+        "background_music": "test_assets/ambient_station.wav",
+        "position": {
+          "x": -392,
+          "y": 50
+        },
+        "dimensions": {
+          "width": 1792,
+          "height": 750
+        }
+      },
+      {
+        "id": "scene_2_junction",
+        "title": "Scene 2: Security Junction & The Choice",
+        "order": 2,
+        "color": "#818cf8",
+        "description": "The sealed security blast door halts all forward progress. A critical decision is required.",
+        "background_image": "test_assets/bg_junction.png",
+        "background_music": "test_assets/ambient_station.wav",
+        "position": {
+          "x": 1480,
+          "y": 50
+        },
+        "dimensions": {
+          "width": 1835,
+          "height": 860
+        }
+      },
+      {
+        "id": "scene_3_core",
+        "title": "Scene 3: The Quantum Core",
+        "order": 3,
+        "color": "#10b981",
+        "description": "The glowing core chamber looms ahead with unstable radiation rings.",
+        "background_image": "test_assets/bg_quantum_core.png",
+        "position": {
+          "x": 3388.2474226804125,
+          "y": 36.82703321878581
+        },
+        "dimensions": {
+          "width": 1741,
+          "height": 750
+        }
+      }
+    ],
+    "acts": [
+      {
+        "id": "scene_1_terminal",
+        "title": "Scene 1: The Abandoned Terminal",
+        "order": 1,
+        "color": "#facc15",
+        "description": "Kaelen arrives at the darkened terminal room as backup emergency lights hum.",
+        "background_image": "test_assets/bg_terminal.png",
+        "background_music": "test_assets/ambient_station.wav",
+        "position": {
+          "x": -392,
+          "y": 50
+        },
+        "dimensions": {
+          "width": 1792,
+          "height": 750
+        }
+      },
+      {
+        "id": "scene_2_junction",
+        "title": "Scene 2: Security Junction & The Choice",
+        "order": 2,
+        "color": "#818cf8",
+        "description": "The sealed security blast door halts all forward progress. A critical decision is required.",
+        "background_image": "test_assets/bg_junction.png",
+        "background_music": "test_assets/ambient_station.wav",
+        "position": {
+          "x": 1480,
+          "y": 50
+        },
+        "dimensions": {
+          "width": 1835,
+          "height": 860
+        }
+      },
+      {
+        "id": "scene_3_core",
+        "title": "Scene 3: The Quantum Core",
+        "order": 3,
+        "color": "#10b981",
+        "description": "The glowing core chamber looms ahead with unstable radiation rings.",
+        "background_image": "test_assets/bg_quantum_core.png",
+        "position": {
+          "x": 3388.2474226804125,
+          "y": 36.82703321878581
+        },
+        "dimensions": {
+          "width": 1741,
+          "height": 750
+        }
+      }
+    ]
+  },
+  "start_node_id": "node_s1_start",
+  "scenes": [
+    {
+      "id": "scene_1_terminal",
+      "title": "Scene 1: The Abandoned Terminal",
+      "order": 1,
+      "color": "#facc15",
+      "description": "Kaelen arrives at the darkened terminal room as backup emergency lights hum.",
+      "background_image": "test_assets/bg_terminal.png",
+      "background_music": "test_assets/ambient_station.wav",
+      "position": {
+        "x": -392,
+        "y": 50
+      },
+      "dimensions": {
+        "width": 1792,
+        "height": 750
+      }
+    },
+    {
+      "id": "scene_2_junction",
+      "title": "Scene 2: Security Junction & The Choice",
+      "order": 2,
+      "color": "#818cf8",
+      "description": "The sealed security blast door halts all forward progress. A critical decision is required.",
+      "background_image": "test_assets/bg_junction.png",
+      "background_music": "test_assets/ambient_station.wav",
+      "position": {
+        "x": 1480,
+        "y": 50
+      },
+      "dimensions": {
+        "width": 1835,
+        "height": 860
+      }
+    },
+    {
+      "id": "scene_3_core",
+      "title": "Scene 3: The Quantum Core",
+      "order": 3,
+      "color": "#10b981",
+      "description": "The glowing core chamber looms ahead with unstable radiation rings.",
+      "background_image": "test_assets/bg_quantum_core.png",
+      "position": {
+        "x": 3388.2474226804125,
+        "y": 36.82703321878581
+      },
+      "dimensions": {
+        "width": 1741,
+        "height": 750
+      }
+    }
+  ],
+  "acts": [
+    {
+      "id": "scene_1_terminal",
+      "title": "Scene 1: The Abandoned Terminal",
+      "order": 1,
+      "color": "#facc15",
+      "description": "Kaelen arrives at the darkened terminal room as backup emergency lights hum.",
+      "background_image": "test_assets/bg_terminal.png",
+      "background_music": "test_assets/ambient_station.wav",
+      "position": {
+        "x": -392,
+        "y": 50
+      },
+      "dimensions": {
+        "width": 1792,
+        "height": 750
+      }
+    },
+    {
+      "id": "scene_2_junction",
+      "title": "Scene 2: Security Junction & The Choice",
+      "order": 2,
+      "color": "#818cf8",
+      "description": "The sealed security blast door halts all forward progress. A critical decision is required.",
+      "background_image": "test_assets/bg_junction.png",
+      "background_music": "test_assets/ambient_station.wav",
+      "position": {
+        "x": 1480,
+        "y": 50
+      },
+      "dimensions": {
+        "width": 1835,
+        "height": 860
+      }
+    },
+    {
+      "id": "scene_3_core",
+      "title": "Scene 3: The Quantum Core",
+      "order": 3,
+      "color": "#10b981",
+      "description": "The glowing core chamber looms ahead with unstable radiation rings.",
+      "background_image": "test_assets/bg_quantum_core.png",
+      "position": {
+        "x": 3388.2474226804125,
+        "y": 36.82703321878581
+      },
+      "dimensions": {
+        "width": 1741,
+        "height": 750
+      }
+    }
+  ],
+  "nodes": {
+    "node_s1_start": {
+      "id": "node_s1_start",
+      "scene_id": "scene_1_terminal",
+      "node_type": "background",
+      "title": "Station Terminal Backdrop",
+      "content": "Flickering holographic displays cast long shadows across the dust.",
+      "position": {
+        "x": -259.3967116467952,
+        "y": 197.919561552906
+      },
+      "linear_target": "node_s1_sfx",
+      "next_node": "node_s1_sfx",
+      "metadata": {
+        "bg_image": "MERA AI.jpg",
+        "bg_transition": "fade"
+      }
+    },
+    "node_s1_sfx": {
+      "id": "node_s1_sfx",
+      "scene_id": "scene_1_terminal",
+      "node_type": "effect",
+      "title": "Terminal Boot Sound",
+      "content": "High-pitch power turbine boot sequence commences.",
+      "position": {
+        "x": 174.41224704135658,
+        "y": 165.97318718430202
+      },
+      "linear_target": "node_s1_dlg1",
+      "next_node": "node_s1_dlg1",
+      "metadata": {
+        "effect_text": "Terminal power online",
+        "effect_audio_file": "test_assets/terminal_boot.wav"
+      }
+    },
+    "node_s1_dlg1": {
+      "id": "node_s1_dlg1",
+      "scene_id": "scene_1_terminal",
+      "node_type": "dialogue",
+      "title": "Kaelen Observation",
+      "content": "The power grid is flickering. How long has this relay station been abandoned?",
+      "position": {
+        "x": 638.1709317000747,
+        "y": 151.99664839803773
+      },
+      "linear_target": "node_s1_dlg2",
+      "next_node": "node_s1_dlg2",
+      "metadata": {
+        "character_id": "char_kaelen",
+        "speaker_name": "Kaelen",
+        "dialogue_text": "The power grid is flickering. How long has this relay station been abandoned?",
+        "voice_audio_file": "test_assets/voice_kaelen_01.wav"
+      }
+    },
+    "node_s1_dlg2": {
+      "id": "node_s1_dlg2",
+      "scene_id": "scene_1_terminal",
+      "node_type": "dialogue",
+      "title": "AURA AI Warning",
+      "content": "Warning: Quantum core cooling has failed. Accessing the junction requires security clearance.",
+      "position": {
+        "x": 1028.053625631396,
+        "y": 138.0201096117735
+      },
+      "linear_target": "node_s2_emotion",
+      "next_node": "node_s2_emotion",
+      "metadata": {
+        "character_id": "char_aura",
+        "speaker_name": "AURA AI",
+        "dialogue_text": "Warning: Quantum core cooling has failed. Accessing the junction requires security clearance."
+      }
+    },
+    "node_s2_emotion": {
+      "id": "node_s2_emotion",
+      "scene_id": "scene_2_junction",
+      "node_type": "emotion",
+      "title": "Kaelen Tense Focus",
+      "content": "Kaelen tightens grip on the datapad, preparing to breach the sealed blast doors.",
+      "position": {
+        "x": 1546.8270332187858,
+        "y": 223.76861397479942
+      },
+      "linear_target": "node_s2_choice",
+      "next_node": "node_s2_choice",
+      "metadata": {
+        "character_id": "char_kaelen",
+        "speaker_name": "Kaelen",
+        "emotion_name": "Tense Focus"
+      }
+    },
+    "node_s2_choice": {
+      "id": "node_s2_choice",
+      "scene_id": "scene_2_junction",
+      "node_type": "choice",
+      "title": "Infiltration Method",
+      "content": "The heavy blast doors are sealed tight. How do you proceed?",
+      "position": {
+        "x": 1911.615120274914,
+        "y": 326.5177548682701
+      },
+      "choices": [
+        {
+          "id": "choice_hack",
+          "label": "Force cyber-override (Risks damaging Core integrity)",
+          "text": "Force cyber-override (Risks damaging Core integrity)",
+          "next_node": "",
+          "target_node_id": "node_s2_branch_a"
+        },
+        {
+          "id": "choice_key",
+          "label": "Search terminal archives for the physical override keycard",
+          "text": "Search terminal archives for the physical override keycard",
+          "next_node": "",
+          "target_node_id": "node_s2_branch_b"
+        }
+      ],
+      "metadata": {}
+    },
+    "node_s2_branch_a": {
+      "id": "node_s2_branch_a",
+      "scene_id": "scene_2_junction",
+      "node_type": "variable",
+      "title": "Integrity Loss",
+      "content": "Cyber-override sparks high-voltage arc. Core integrity drops by 25%.",
+      "position": {
+        "x": 2370.6529209621995,
+        "y": 182.21076746849934
+      },
+      "linear_target": "node_s2_converge",
+      "next_node": "node_s2_converge",
+      "metadata": {
+        "variable_name": "core_integrity_percent",
+        "variable_op": "set",
+        "variable_val": 75
+      }
+    },
+    "node_s2_branch_b": {
+      "id": "node_s2_branch_b",
+      "scene_id": "scene_2_junction",
+      "node_type": "variable",
+      "title": "Acquire Keycard",
+      "content": "Keycard retrieved from emergency compartment. Door unlocked safely.",
+      "position": {
+        "x": 2349.5761741122565,
+        "y": 582.8636884306986
+      },
+      "linear_target": "node_s2_converge",
+      "next_node": "node_s2_converge",
+      "metadata": {
+        "variable_name": "has_security_key",
+        "variable_op": "set",
+        "variable_val": true,
+        "effect_audio_file": "test_assets/door_unlock.wav"
+      }
+    },
+    "node_s2_converge": {
+      "id": "node_s2_converge",
+      "scene_id": "scene_2_junction",
+      "node_type": "dialogue",
+      "title": "Doors Open",
+      "content": "The blast doors unlock with a deep metallic groan. The path to the Quantum Core is clear.",
+      "position": {
+        "x": 2901.901489117983,
+        "y": 344.9026345933561
+      },
+      "linear_target": "node_s3_ambient",
+      "next_node": "node_s3_ambient",
+      "metadata": {
+        "character_id": "char_kaelen",
+        "speaker_name": "Kaelen",
+        "dialogue_text": "The blast doors unlock with a deep metallic groan. The path to the Quantum Core is clear."
+      }
+    },
+    "node_s3_ambient": {
+      "id": "node_s3_ambient",
+      "scene_id": "scene_3_core",
+      "node_type": "effect",
+      "title": "Core Resonator",
+      "content": "Brilliant emerald radiation pulses rhythmically through the reactor core.",
+      "position": {
+        "x": 3541.534936998854,
+        "y": 211.61512027491403
+      },
+      "linear_target": "node_s3_dlg_final",
+      "next_node": "node_s3_dlg_final",
+      "metadata": {
+        "effect_text": "Quantum Core radiation stabilized",
+        "bg_image": "test_assets/bg_quantum_core.png"
+      }
+    },
+    "node_s3_dlg_final": {
+      "id": "node_s3_dlg_final",
+      "scene_id": "scene_3_core",
+      "node_type": "dialogue",
+      "title": "Core Decision",
+      "content": "The Quantum Core is stable now. We have rescued the station data from oblivion.",
+      "position": {
+        "x": 4080.206185567009,
+        "y": 153.65406643757163
+      },
+      "linear_target": "node_s3_end",
+      "next_node": "node_s3_end",
+      "metadata": {
+        "character_id": "char_kaelen",
+        "speaker_name": "Kaelen",
+        "dialogue_text": "The Quantum Core is stable now. We have rescued the station data from oblivion."
+      }
+    },
+    "node_s3_end": {
+      "id": "node_s3_end",
+      "scene_id": "scene_3_core",
+      "node_type": "dialogue",
+      "title": "Mission Complete",
+      "content": "Protocol restored successfully. Neon echoes fade into silence... [Story Completed]",
+      "position": {
+        "x": 4745.337915234822,
+        "y": 256.40320733104227
+      },
+      "metadata": {
+        "character_id": "char_aura",
+        "speaker_name": "AURA AI",
+        "dialogue_text": "Protocol restored successfully. Neon echoes fade into silence... [Story Completed]",
+        "is_terminal": true
+      }
+    }
+  },
+  "asset_registry": {
+    "asset_bg_terminal": {
+      "id": "asset_bg_terminal",
+      "type": "image",
+      "local_path": "test_assets/bg_terminal.png",
+      "file_size_bytes": 2649
+    },
+    "asset_bg_junction": {
+      "id": "asset_bg_junction",
+      "type": "image",
+      "local_path": "test_assets/bg_junction.png",
+      "file_size_bytes": 2832
+    },
+    "asset_bg_quantum_core": {
+      "id": "asset_bg_quantum_core",
+      "type": "image",
+      "local_path": "test_assets/bg_quantum_core.png",
+      "file_size_bytes": 2778
+    },
+    "asset_char_kaelen": {
+      "id": "asset_char_kaelen",
+      "type": "image",
+      "local_path": "test_assets/char_kaelen.png",
+      "file_size_bytes": 1041
+    },
+    "asset_sfx_boot": {
+      "id": "asset_sfx_boot",
+      "type": "audio",
+      "local_path": "test_assets/terminal_boot.wav",
+      "file_size_bytes": 66194
+    },
+    "asset_sfx_door": {
+      "id": "asset_sfx_door",
+      "type": "audio",
+      "local_path": "test_assets/door_unlock.wav",
+      "file_size_bytes": 35324
+    },
+    "asset_bgm_station": {
+      "id": "asset_bgm_station",
+      "type": "audio",
+      "local_path": "test_assets/ambient_station.wav",
+      "file_size_bytes": 88244
+    },
+    "asset_voice_kaelen": {
+      "id": "asset_voice_kaelen",
+      "type": "audio",
+      "local_path": "test_assets/voice_kaelen_01.wav",
+      "file_size_bytes": 52964
+    }
+  }
+}
