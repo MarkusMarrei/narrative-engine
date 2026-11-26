@@ -8,6 +8,8 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
+  <img src="https://img.shields.io/badge/Release-v1.0.0--beta-amber.svg?style=flat-square" alt="Beta Release" />
+  <img src="https://img.shields.io/badge/Verified%20On-AMD%20Ryzen%207%207840HS%20%7C%20Radeon%20780M-blueviolet.svg?style=flat-square" alt="Verified Hardware" />
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-20%2B-green.svg?style=flat-square" alt="Node.js Version" /></a>
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-61dafb.svg?style=flat-square" alt="React 19" /></a>
   <a href="https://fastify.dev/"><img src="https://img.shields.io/badge/Fastify-5-black.svg?style=flat-square" alt="Fastify" /></a>
@@ -15,6 +17,16 @@
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.7-3178c6.svg?style=flat-square" alt="TypeScript" /></a>
   <a href="README_RU.md"><img src="https://img.shields.io/badge/Language-Русский-red.svg?style=flat-square" alt="Russian Documentation" /></a>
 </p>
+
+---
+
+> [!IMPORTANT]
+> ### ⚠️ Public Beta & Hardware Validation Status
+> **Narrative Engine is currently in Public Beta (v1.0.0-beta).**
+>
+> - **Primary Verified Hardware:** This release has been extensively developed, benchmarked, and verified on **Windows 11 (x64)** on an **AMD Ryzen 7 7840HS** processor (16 execution threads) with integrated **AMD Radeon 780M Graphics** (Vulkan 1.3 acceleration). On this hardware configuration, the visual editor, streaming proxy, and MCP agents run with maximum stability.
+> - **macOS, Linux & Other Hardware:** Universal launcher scripts (`start_linux_mac.sh`), platform-agnostic dependencies, and multi-OS CI pipelines are already set up. While the engine is designed to run everywhere, minor visual differences, platform quirks, or edge-case bugs may still occur on macOS, different Linux distributions, or discrete GPU setups.
+> - **Community Feedback:** If you test Narrative Engine on other operating systems or hardware configs and notice any issues, please report them in the [Issues tab](https://github.com/MarkusMarrei/narrative-engine/issues) so we can expand universal support!
 
 ---
 

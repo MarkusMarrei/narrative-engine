@@ -8,6 +8,8 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/Лицензия-Apache%202.0-blue.svg?style=flat-square" alt="Лицензия" /></a>
+  <img src="https://img.shields.io/badge/Релиз-v1.0.0--beta-amber.svg?style=flat-square" alt="Бета-релиз" />
+  <img src="https://img.shields.io/badge/Протестировано-AMD%20Ryzen%207%207840HS%20%7C%20Radeon%20780M-blueviolet.svg?style=flat-square" alt="Железо" />
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-20%2B-green.svg?style=flat-square" alt="Версия Node.js" /></a>
   <a href="https://react.dev/"><img src="https://img.shields.io/badge/React-19-61dafb.svg?style=flat-square" alt="React 19" /></a>
   <a href="https://fastify.dev/"><img src="https://img.shields.io/badge/Fastify-5-black.svg?style=flat-square" alt="Fastify" /></a>
@@ -15,6 +17,16 @@
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.7-3178c6.svg?style=flat-square" alt="TypeScript" /></a>
   <a href="README.md"><img src="https://img.shields.io/badge/Language-English-blue.svg?style=flat-square" alt="English Documentation" /></a>
 </p>
+
+---
+
+> [!IMPORTANT]
+> ### ⚠️ Публичная бета-версия и статус совместимости с железом
+> **Narrative Engine находится в стадии публичной бета-версии (v1.0.0-beta).**
+>
+> - **Основная протестированная конфигурация:** Текущая версия была разработана, тщательно оттестирована и проверена на **Windows 11 (x64)** на процессоре **AMD Ryzen 7 7840HS** со встроенной графикой **AMD Radeon 780M Graphics** (аппаратное ускорение Vulkan 1.3). На этой конфигурации гарантирована стабильная работа холста, неразрушающего медиа-стриминга и обоих транспортов MCP.
+> - **macOS, Linux и другие конфигурации:** В проекте уже предусмотрены универсальные скрипты запуска (`start_linux_mac.sh`), кроссплатформенная архитектура и мульти-ОС сборка. Мы сделали всё, чтобы проект запускался на любых системах, но на macOS, различных дистрибутивах Linux или альтернативных связках CPU/GPU пока могут возникать платформенные нюансы или непредвиденные ошибки.
+> - **Обратная связь:** Если вы запустили проект на macOS, Linux или другом железе и столкнулись с багом, пожалуйста, создайте тикет в разделе [Issues](https://github.com/MarkusMarrei/narrative-engine/issues) — мы оперативно изучим проблему и улучшим совместимость!
 
 ---
 
