@@ -42,3 +42,7 @@ desktop.ini
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Personal notes and internal agent playbooks
+PROJECT_SUMMARY_FOR_AGENTS.md
+
